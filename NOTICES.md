@@ -1,9 +1,9 @@
-# <Insert Repository Name Here> Notices
+# Student-Engagement-Management Notices
 
-This product includes software developed at the [Ed-Fi
-Alliance](https://www.ed-fi.org).
+This product includes software developed by Blue Learning under a grant funded
+by the Michael & Susan Dell Foundation.
 
-Copyright (c) 2021 Ed-Fi Alliance, LLC and contributors.
+Copyright (c) 2023 Blue Learning and contributors.
 
 This software distribution includes or contains external references to several
 open source packages that are attributed below in this notice. Where required,
