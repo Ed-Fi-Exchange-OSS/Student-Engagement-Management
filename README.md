@@ -1,10 +1,13 @@
-# {Insert Repository Name Here}
+# Student-Engagement-Management
 
-{Insert project information here}
+This project aims to create an Ed-Fi Technical Suite 3-powered Student
+Engagement Management application that provides executives, district and
+campus administrators, and teachers with a set of dashboards and custom
+reports to help raise warning signs of disengaged students.  
 
 ## Legal Information
 
-Copyright (c) 2021 Ed-Fi Alliance, LLC and contributors.
+Copyright (c) 2023 Blue Learning, and contributors.
 
 Licensed under the [Apache License, Version 2.0](LICENSE) (the "License").
 
