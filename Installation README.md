@@ -1,3 +1,9 @@
+# Installation Instructions
+
+> [!NOTE]
+> Please review these instructions carefully and adjust as needed to ensure they satisfy your
+> secure deployment requirements.
+
 ## Setup:
 
 Clone this repository and create a new .env file with the following variables defined:
