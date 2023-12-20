@@ -1,0 +1,14 @@
+default:
+  target: "{{env_var('DBT_TARGET')}}"
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      dataset: "{{env_var('BQ_INSTANCE_NAME')~'_dev'}}"
+      threads: 4
+      keyfile: "{{env_var('GOOGLE_APPLICATION_CREDENTIALS')}}"
+    prod:
+      type: bigquery
+      method: oauth
+      dataset: "{{env_var('BQ_INSTANCE_NAME')~'_prod'}}"
+      threads: 4

@@ -1,0 +1,102 @@
+global:
+  serviceAccountName: "dagster"
+
+dagit:
+  workspace:
+    enabled: true
+    servers:
+      - host: "edfi-amt-user-code"
+        port: 3030
+    envConfigMaps:
+      - name: dagster-lea-vars
+  resources:
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
+      ephemeral-storage: "1Gi"
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+      ephemeral-storage: "1Gi"
+  nodeSelector:
+    cloud.google.com/gke-spot: "true"
+
+    
+dagsterDaemon:
+  resources:
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
+      ephemeral-storage: "1Gi"
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+      ephemeral-storage: "1Gi"
+
+dagster-user-deployments:
+  enabled: true
+  # If you plan on deploying user code in a separate Helm release, set this to false.
+  enableSubchart: true
+  # List of unique deployments
+  deployments:
+    - name: "edfi-amt-user-code"
+      image:
+        repository: "us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/edfi-dagster/dagster"
+        tag: latest
+        pullPolicy: Always
+      dagsterApiGrpcArgs:
+        - "--python-file"
+        - "/opt/dagster/app/edfi/edfi_definitions.py"
+      port: 3030
+      envConfigMaps:
+        - name: dagster-lea-vars
+      envSecrets:
+        - name: dagster-edfi-api
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
+        requests:
+          cpu: "500m"
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      includeConfigInLaunchedRuns:
+        enabled: true
+      lifecycle:
+        postStart:
+          exec:
+            command: ["/bin/sh", "-c", "cd /opt/dagster/app/dbt && dbt parse"]
+
+        
+
+postgresql:
+  # set postgresql.enabled to be false to disable deploy of a PostgreSQL database and use an
+  # existing external PostgreSQL database
+  enabled: false
+  # set this PostgreSQL hostname when using an external PostgreSQL database
+  postgresqlHost: "${DAGIT_POSTGRES_HOST}"
+  postgresqlUsername: "postgres"
+  postgresqlDatabase: "dagster"
+
+generatePostgresqlPasswordSecret: false
+
+runLauncher:
+  type: K8sRunLauncher
+  config:
+    k8sRunLauncher:
+      envConfigMaps:
+        - name: dagster-lea-vars
+      envSecrets:
+        - name: dagster-edfi-api
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
+        requests:
+          cpu: "500m"
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
